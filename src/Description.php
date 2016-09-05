@@ -11,6 +11,9 @@
 
 namespace Symfony\Cmf\Component\Description;
 
+use Symfony\Cmf\Component\Description\Schema\Schema;
+use Symfony\Cmf\Component\Description\DescriptorInterface;
+
 /**
  * Descriptive metadata for objects.
  */
@@ -27,14 +30,20 @@ class Description
     private $object;
 
     /**
+     * @var Schema
+     */
+    private $schema;
+
+    /**
      * @param PuliObject $object
      */
-    public function __construct($object)
+    public function __construct($object, Schema $schema = null)
     {
         $this->object = $object;
+        $this->schema = $schema;
 
         // this should be overridden early by any enhancers that issue proxies.
-        $this->set(Descriptor::CLASS_FQN, get_class($object));
+        $this->set('std:class_fqn', get_class($object));
     }
 
     /**
@@ -44,9 +53,13 @@ class Description
      *
      * @return mixed
      */
-    public function get($descriptor)
+    public function get($descriptorKey): DescriptorInterface
     {
-        if (!isset($this->descriptors[$descriptor])) {
+        if (!isset($this->descriptors[$descriptorKey])) {
+            if (null !== $this->schema) {
+                $this->schema->validateKey($descriptorKey);
+            }
+
             throw new \InvalidArgumentException(sprintf(
                 'Descriptor "%s" not supported for object of class "%s". Supported descriptors: "%s"',
                 $descriptor,
@@ -65,8 +78,12 @@ class Description
      *
      * @return bool
      */
-    public function has($descriptor)
+    public function has($descriptor): bool
     {
+        if (null !== $this->schema) {
+            $this->schema->validateKey($descriptor);
+        }
+
         return isset($this->descriptors[$descriptor]);
     }
 
@@ -93,16 +110,13 @@ class Description
      * @param string $descriptor
      * @param mixed  $value
      */
-    public function set($descriptor, $value)
+    public function set(DescriptorInterface $descriptor)
     {
-        if (null !== $value && !is_scalar($value) && !is_array($value)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Only scalar and array values are allowed as descriptor values, got "%s" when setting descriptor "%s"',
-                gettype($value), $descriptor
-            ));
+        if (null !== $this->schema) {
+            $this->schema->validate($descriptor);
         }
 
-        $this->descriptors[$descriptor] = $value;
+        $this->descriptors[$descriptor->getKey()] = $descriptor;
     }
 
     /**

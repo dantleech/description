@@ -28,6 +28,16 @@ your object. Some existing enhancers:
 - **PhpcrOdmEnhancer**: Provide information about valid children types.
 - **SycmsContentTypeEnhancer**: Provide image and CRUD URLs, titles and more.
 
+The value of descriptors is that they are standardized - if you want the title
+for an object, it should use the same descriptor name in all places, in all
+applications.
+
+This could be done by providing hard-coded keys (e.g. constants) but constant
+values provide no information about the type of a descriptor (is it an array?
+scalar?) and it provides no way for the application to determine which
+descriptors are available (invaluable when debugging).
+
+
 ## Requirements 
 
 * See also the `require` section of [composer.json](composer.json)

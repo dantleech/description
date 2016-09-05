@@ -12,6 +12,7 @@
 namespace Symfony\Cmf\Component\Description;
 
 use Puli\Repository\Api\Object\PuliObject;
+use Symfony\Cmf\Component\Description\Schema\Schema;
 
 class DescriptionFactory
 {
@@ -21,11 +22,17 @@ class DescriptionFactory
     private $enhancers = [];
 
     /**
+     * @var Schema
+     */
+    private $schema;
+
+    /**
      * @param array $enhancers
      */
-    public function __construct(array $enhancers)
+    public function __construct(array $enhancers, Schema $schema = null)
     {
         $this->enhancers = $enhancers;
+        $this->schema = $schema;
     }
 
     /**
@@ -37,7 +44,7 @@ class DescriptionFactory
      */
     public function getPayloadDescriptionFor($object)
     {
-        $description = new Description($object);
+        $description = new Description($object, $this->schema);
 
         foreach ($this->enhancers as $enhancer) {
             if (false === $enhancer->supports($description)) {
