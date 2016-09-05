@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\Description\\Tests": "tests/"
+            "Symfony\\Cmf\\Component\\Description\\Tests\\": "tests/"
         }
     },
     "extra": {

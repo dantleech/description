@@ -17,23 +17,28 @@ use Symfony\Cmf\Component\Description\Descriptor\ScalarDescriptor;
 use Symfony\Cmf\Component\Description\DescriptionInterface;
 
 /**
- * Descriptive metadata for objects.
+ * Decorator for description which validates the descriptions based
+ * on the given Schema.
+ *
+ * Note that for performance reasons this should only be used in a development
+ * environemnt.
  */
-class Description implements DescriptionInterface
+class ValidatedDescription implements DescriptionInterface
 {
     /**
-     * @var array
+     * @var Description
      */
-    private $descriptors = [];
+    private $description;
 
     /**
-     * @var object
+     * @var Scehma
      */
-    private $object;
+    private $schema;
 
-    public function __construct($object)
+    public function __construct(DescriptionInterface $description, Schema $schema)
     {
-        $this->object = $object;
+        $this->description = $description;
+        $this->schema = $schema;
     }
 
     /**
@@ -41,16 +46,9 @@ class Description implements DescriptionInterface
      */
     public function get($descriptorKey): DescriptorInterface
     {
-        if (!isset($this->descriptors[$descriptorKey])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Descriptor "%s" not supported for object of class "%s". Supported descriptors: "%s"',
-                $descriptor,
-                get_class($this->object),
-                implode('", "', array_keys($this->descriptors))
-            ));
-        }
+        $this->schema->validateKey($descriptorKey);
 
-        return $this->descriptors[$descriptorKey];
+        return $this->description->get($descriptorKey);
     }
 
     /**
@@ -58,7 +56,9 @@ class Description implements DescriptionInterface
      */
     public function has($descriptor): bool
     {
-        return isset($this->descriptors[$descriptor]);
+        $this->schema->validateKey($descriptor);
+
+        return $this->description->has($descriptor);
     }
 
     /**
@@ -66,7 +66,7 @@ class Description implements DescriptionInterface
      */
     public function all(): array
     {
-        return $this->descriptors;
+        return $this->description->all();
     }
 
     /**
@@ -74,14 +74,17 @@ class Description implements DescriptionInterface
      */
     public function set(DescriptorInterface $descriptor)
     {
-        $this->descriptors[$descriptor->getKey()] = $descriptor;
+        $this->schema->validate($descriptor);
+        $this->description->set($descriptor);
     }
 
     /**
-     * {@inheritdoc}
+     * Return the object for which this is the description.
+     *
+     * @return object
      */
     public function getObject()
     {
-        return $this->object;
+        return $this->description->getObject();
     }
 }

@@ -9,18 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\Description\Tests\Unit\Repository;
+namespace Symfony\Cmf\Component\Description\Tests\Unit;
 
 use Symfony\Cmf\Component\Description\Description;
 use Symfony\Cmf\Component\Description\Descriptor;
 use Puli\Repository\Api\Object\PuliObject;
+use Symfony\Cmf\Component\Description\Schema\Schema;
+use Symfony\Cmf\Component\Description\DescriptorInterface;
 
 class DescriptionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Description
      */
-    private $description;
+    protected $description;
 
     /**
      * @var PuliObject
@@ -29,62 +31,60 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->object = new \stdClass();
-        $this->description = new Description($this->object);
+        $this->object = new \stdClass;
+        $this->descriptor1 = $this->prophesize(DescriptorInterface::class);
+        $this->descriptor2 = $this->prophesize(DescriptorInterface::class);
+
+        $this->descriptor1->getKey()->willReturn('foo');
+        $this->descriptor2->getKey()->willReturn('bar');
     }
 
     /**
-     * It should allow values to be set and retrieved.
+     * It should allow descriptors to be set.
      */
-    public function testGetSet()
+    public function testDescriptorSetGet()
     {
-        $this->description->set(Descriptor::TYPE_ALIAS, 'page');
-        $this->description->set(Descriptor::LINK_EDIT_HTML, '/path/to/edit');
-        $this->description->set('custom.key', 'Hello');
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal());
 
-        $this->assertEquals('page', $this->description->get(Descriptor::TYPE_ALIAS));
-
-        $this->assertTrue($this->description->has(Descriptor::TYPE_ALIAS));
-        $this->assertFalse($this->description->has('hello'));
-        $this->assertEquals([
-            Descriptor::TYPE_ALIAS => 'page',
-            Descriptor::LINK_EDIT_HTML => '/path/to/edit',
-            'custom.key' => 'Hello',
-            Descriptor::CLASS_FQN => 'stdClass',
-
-        ], $this->description->all());
+        $this->assertSame($this->descriptor1->reveal(), $description->get('foo'));
     }
 
     /**
-     * It should throw an exception if a non-scalar value is set.
-     *
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Only scalar and array values are allowed as descriptor values, got "object" when setting descriptor "hello"
+     * It should say if a descriptor exists or not.
      */
-    public function testSetNonScalar()
+    public function testHasDescriptor()
     {
-        $this->description->set('hello', new \stdClass());
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal());
+
+        $this->assertTrue($description->has('foo'));
+        $this->assertFalse($description->has('baz'));
     }
 
     /**
-     * It should throw an exception when requesting an unsupported descriptor.
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Supported descriptors: "class_fqn", "foo", "bar"
+     * It should return all descriptors.
      */
-    public function testGetUnsupported()
+    public function testReturnAll()
     {
-        $this->description->set('foo', 'bar');
-        $this->description->set('bar', 'foo');
-        $this->description->get('not there');
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal());
+        $description->set($this->descriptor2->reveal());
+
+        $this->assertCount(2, $description->all());
     }
 
     /**
-     * It should return the object that it describes.
+     * It should return the object that it was constructed with.
      */
     public function testGetObject()
     {
-        $object = $this->description->getObject();
-        $this->assertSame($this->object, $object);
+        $description = $this->create();
+        $this->assertSame($this->object, $description->getObject());
+    }
+
+    protected function create()
+    {
+        return  new Description($this->object);
     }
 }
