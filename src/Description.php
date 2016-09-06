@@ -43,8 +43,8 @@ class Description implements DescriptionInterface
     {
         if (!isset($this->descriptors[$descriptorKey])) {
             throw new \InvalidArgumentException(sprintf(
-                'Descriptor "%s" not supported for object of class "%s". Supported descriptors: "%s"',
-                $descriptor,
+                'Descriptor "%s" is not supported for object of class "%s". Supported descriptors: "%s"',
+                $descriptorKey,
                 get_class($this->object),
                 implode('", "', array_keys($this->descriptors))
             ));

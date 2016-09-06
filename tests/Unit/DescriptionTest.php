@@ -51,6 +51,19 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * It should throw an exception if a descriptor does not exist.
+     *
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Descriptor "foo" is not supported for object
+     */
+    public function testDescriptorNotExist()
+    {
+        $description = $this->create();
+        $description->get('foo');
+    }
+
+
+    /**
      * It should say if a descriptor exists or not.
      */
     public function testHasDescriptor()

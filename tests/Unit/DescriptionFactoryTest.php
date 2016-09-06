@@ -16,6 +16,8 @@ use Symfony\Cmf\Component\Description\DescriptionEnhancerInterface;
 use Prophecy\Argument;
 use Symfony\Cmf\Component\Description\DescriptionFactory;
 use Puli\Repository\Api\Resource\PuliResource;
+use Symfony\Cmf\Component\Description\DescriptionInterface;
+use Symfony\Cmf\Component\Description\DescriptorInterface;
 
 class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,16 +36,21 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResourceDescription()
     {
+        $descriptor1 = $this->prophesize(DescriptorInterface::class);
+        $descriptor1->getKey()->willReturn('barfoo');
+        $descriptor2 = $this->prophesize(DescriptorInterface::class);
+        $descriptor2->getKey()->willReturn('foobar');
+
         $this->enhancer1->enhance(Argument::type(Description::class))
-            ->will(function ($args) {
+            ->will(function ($args) use ($descriptor1) {
                 $description = $args[0];
-                $description->set('foobar', 'barfoo');
+                $description->set($descriptor1->reveal());
             });
         $this->enhancer1->supports(Argument::type(Description::class))->willReturn(true);
         $this->enhancer2->enhance(Argument::type(Description::class))
-            ->will(function ($args) {
+            ->will(function ($args) use ($descriptor2) {
                 $description = $args[0];
-                $description->set('barfoo', 'foobar');
+                $description->set($descriptor2->reveal());
             });
         $this->enhancer2->supports(Argument::type(Description::class))->willReturn(true);
 
@@ -53,8 +60,8 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
         ])->getPayloadDescriptionFor($this->object);
 
         $this->assertInstanceOf(Description::class, $description);
-        $this->assertEquals('barfoo', $description->get('foobar'));
-        $this->assertEquals('foobar', $description->get('barfoo'));
+        $this->assertSame($descriptor1->reveal(), $description->get('barfoo'));
+        $this->assertSame($descriptor2->reveal(), $description->get('foobar'));
     }
 
     /**
