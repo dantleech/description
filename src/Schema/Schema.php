@@ -1,10 +1,10 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Schema;
+namespace Psi\Component\Description\Schema;
 
-use Symfony\Cmf\Component\Description\Schema\Builder;
-use Symfony\Cmf\Component\Description\Schema\ExtensionInterface;
-use Symfony\Cmf\Component\Description\DescriptorInterface;
+use Psi\Component\Description\Schema\Builder;
+use Psi\Component\Description\Schema\ExtensionInterface;
+use Psi\Component\Description\DescriptorInterface;
 
 /**
  * Description schema.

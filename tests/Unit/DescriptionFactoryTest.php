@@ -9,15 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\Description\Tests\Unit\Repository;
+namespace Psi\Component\Description\Tests\Unit\Repository;
 
-use Symfony\Cmf\Component\Description\Description;
-use Symfony\Cmf\Component\Description\DescriptionEnhancerInterface;
 use Prophecy\Argument;
-use Symfony\Cmf\Component\Description\DescriptionFactory;
-use Puli\Repository\Api\Resource\PuliResource;
-use Symfony\Cmf\Component\Description\DescriptionInterface;
-use Symfony\Cmf\Component\Description\DescriptorInterface;
+use Psi\Component\Description\Description;
+use Psi\Component\Description\DescriptionEnhancerInterface;
+use Psi\Component\Description\DescriptionFactory;
+use Psi\Component\Description\DescriptionInterface;
+use Psi\Component\Description\DescriptorInterface;
 
 class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
 {

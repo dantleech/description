@@ -4,14 +4,14 @@ namespace Psi\Component\Description\Descriptor;
 
 use Psi\Component\Description\DescriptorInterface;
 
-class LinkDescriptor implements DescriptorInterface
+class ArrayDescriptor implements DescriptorInterface
 {
-    private $link;
     private $key;
+    private $values;
 
-    public function __construct(string $key, string $link)
+    public function __construct(string $key, array $values)
     {
-        $this->link = $link;
+        $this->values = $values;
         $this->key = $key;
     }
 
@@ -19,10 +19,10 @@ class LinkDescriptor implements DescriptorInterface
     {
         return $this->key;
     }
-    
 
-    public function getLink(): string
+    public function getValues(): array
     {
-        return $this->link;
+        return $this->values;
     }
 }
+

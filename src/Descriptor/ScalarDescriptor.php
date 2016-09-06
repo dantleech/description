@@ -1,21 +1,21 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Descriptor;
+namespace Psi\Component\Description\Descriptor;
 
-use Symfony\Cmf\Component\Description\DescriptorInterface;
+use Psi\Component\Description\DescriptorInterface;
 
 class ScalarDescriptor implements DescriptorInterface
 {
     private $key;
     private $value;
 
-    public function __construct($key, $value)
+    public function __construct(string $key, $value)
     {
         $this->value = $value;
         $this->key = $key;
     }
 
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }

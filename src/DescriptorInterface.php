@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description;
+namespace Psi\Component\Description;
 
 /**
  * Descriptor classes are value objects containing a specific description value

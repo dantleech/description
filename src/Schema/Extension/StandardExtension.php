@@ -1,9 +1,9 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Schema;
+namespace Psi\Component\Description\Schema;
 
-use Symfony\Cmf\Component\Description\Schema\ExtensionInterface;
-use Symfony\Cmf\Component\Description\Schema\Builder;
+use Psi\Component\Description\Schema\ExtensionInterface;
+use Psi\Component\Description\Schema\Builder;
 
 class StandardExtension implements ExtensionInterface
 {
@@ -23,6 +23,8 @@ class StandardExtension implements ExtensionInterface
         $builder->add('api_link.show', ScalarDesciptor::class, 'API Link to where the object can be shown');
         $builder->add('api_link.update', ScalarDesciptor::class, 'API Link to where the object can be updated');
         $builder->add('api_link.delete', ScalarDesciptor::class, 'API Link to where the object can be deleted');
+
+        $builder->add('hierarchy.children_allow', BooleanDescriptor::class, 
     }
 
     public function getName()

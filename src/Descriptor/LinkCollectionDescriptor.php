@@ -1,8 +1,8 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Descriptor;
+namespace Psi\Component\Description\Descriptor;
 
-use Symfony\Cmf\Component\Description\DescriptorInterface;
+use Psi\Component\Description\DescriptorInterface;
 
 class LinkCollectionDescriptor implements DescriptorInterface
 {

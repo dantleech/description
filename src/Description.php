@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\Description;
+namespace Psi\Component\Description;
 
-use Symfony\Cmf\Component\Description\Schema\Schema;
-use Symfony\Cmf\Component\Description\DescriptorInterface;
-use Symfony\Cmf\Component\Description\Descriptor\ScalarDescriptor;
-use Symfony\Cmf\Component\Description\DescriptionInterface;
+use Psi\Component\Description\Schema\Schema;
+use Psi\Component\Description\DescriptorInterface;
+use Psi\Component\Description\Descriptor\ScalarDescriptor;
+use Psi\Component\Description\DescriptionInterface;
 
 /**
  * Descriptive metadata for objects.

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\Description;
+namespace Psi\Component\Description;
 
 interface DescriptionEnhancerInterface
 {

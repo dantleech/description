@@ -11,24 +11,18 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": "^5.5.6|^7.0",
+        "php": "^7.0",
         "phpunit/phpunit": "^5.5"
     },
     "minimum-stability": "dev",
-    "require-dev": {
-        "jackalope/jackalope-fs": "dev-master",
-        "sonata-project/admin-bundle": "^3.1",
-        "sylius/resource-bundle": "^0.18",
-        "doctrine/phpcr-odm": "^1.4"
-    },
     "autoload": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\Description\\": "src/"
+            "Psi\\Component\\Description\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symfony\\Cmf\\Component\\Description\\Tests\\": "tests/"
+            "Psi\\Component\\Description\\Tests\\": "tests/"
         }
     },
     "extra": {

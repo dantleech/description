@@ -1,8 +1,8 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Schema;
+namespace Psi\Component\Description\Schema;
 
-use Symfony\Cmf\Component\Description\Schema\Definition;
+use Psi\Component\Description\Schema\Definition;
 
 class Builder
 {

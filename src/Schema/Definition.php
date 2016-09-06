@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Schema;
+namespace Psi\Component\Description\Schema;
 
 class Definition
 {

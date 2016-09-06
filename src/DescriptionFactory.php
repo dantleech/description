@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Cmf\Component\Description;
+namespace Psi\Component\Description;
 
 use Puli\Repository\Api\Object\PuliObject;
-use Symfony\Cmf\Component\Description\Schema\Schema;
+use Psi\Component\Description\Schema\Schema;
 
 class DescriptionFactory
 {

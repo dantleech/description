@@ -1,11 +1,11 @@
 <?php
 
-namespace Symfony\Cmf\Component\Description\Tests\Unit;
+namespace Psi\Component\Description\Tests\Unit;
 
-use Symfony\Cmf\Component\Description\Schema\Schema;
-use Symfony\Cmf\Component\Description\ValidatedDescription;
-use Symfony\Cmf\Component\Description\Tests\Unit\DescriptionTest;
-use Symfony\Cmf\Component\Description\DescriptorInterface;
+use Psi\Component\Description\Schema\Schema;
+use Psi\Component\Description\ValidatedDescription;
+use Psi\Component\Description\Tests\Unit\DescriptionTest;
+use Psi\Component\Description\DescriptorInterface;
 use Prophecy\Argument;
 
 class ValidatedDescriptionTest extends DescriptionTest
