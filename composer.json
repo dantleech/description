@@ -1,12 +1,12 @@
 {
-    "name": "symfony-cmf/description",
+    "name": "psi/description",
     "description": "Allow third-party libraries to add descriptions to an object instance",
     "homepage": "http://cmf.symfony.com",
     "license": "MIT",
     "authors": [
         {
-            "name": "Symfony CMF Community",
-            "homepage": "https://github.com/symfony-cmf/symfony-cmf/contributors"
+            "name": "PSI Community",
+            "homepage": "https://psiphp.github.io"
         }
     ],
     "prefer-stable": true,
