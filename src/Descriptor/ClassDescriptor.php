@@ -6,17 +6,14 @@ namespace Psi\Component\Description\Descriptor;
 
 use Psi\Component\Description\DescriptorInterface;
 
-/**
- * Descriptor for an array of values.
- */
-class ArrayDescriptor implements DescriptorInterface
+class ClassDescriptor implements DescriptorInterface
 {
     private $key;
-    private $values;
+    private $class;
 
-    public function __construct(string $key, array $values)
+    public function __construct(string $key, \ReflectionClass $class)
     {
-        $this->values = $values;
+        $this->class = $class;
         $this->key = $key;
     }
 
@@ -29,10 +26,10 @@ class ArrayDescriptor implements DescriptorInterface
     }
 
     /**
-     * Return an array of values.
+     * Return the reflection class.
      */
-    public function getValues(): array
+    public function getClass(): \ReflectionClass
     {
-        return $this->values;
+        return $this->class;
     }
 }

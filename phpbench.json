@@ -1,0 +1,7 @@
+{
+    "path": "benchmarks",
+    "extensions": [
+        "PhpBench\\Extensions\\XDebug\\XDebugExtension"
+    ],
+    "bootstrap": "vendor/autoload.php"
+}

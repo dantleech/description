@@ -1,19 +1,8 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2015 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Psi\Component\Description;
-
-use Psi\Component\Description\Schema\Schema;
-use Psi\Component\Description\DescriptorInterface;
-use Psi\Component\Description\Descriptor\ScalarDescriptor;
 
 /**
  * Descriptive metadata for objects.
@@ -59,12 +48,4 @@ interface DescriptionInterface
      * @param mixed  $value
      */
     public function set(DescriptorInterface $descriptor);
-
-    /**
-     * Return the object for which this is the description.
-     *
-     * @return object
-     */
-    public function getObject();
 }
-

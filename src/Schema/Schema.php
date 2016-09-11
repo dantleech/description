@@ -1,36 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Psi\Component\Description\Schema;
 
-use Psi\Component\Description\Schema\Builder;
-use Psi\Component\Description\Schema\ExtensionInterface;
 use Psi\Component\Description\DescriptorInterface;
 
 /**
- * Description schema.
+ * Description schema defines which descriptors are allowed to be
+ * set on the description.
  */
 class Schema
 {
     private $definitions;
 
-    public function register(ExtensionInterface $extension)
+    public function __construct(array $extensions)
     {
-        $builder = new Builder(get_class($extension));
-        $extension->buildSchema($builder);
-
-        foreach ($builder->getDefinitions() as $definition) {
-            if (isset($this->definitions[$definition->getKey()])) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Descriptor key "%s" for was already registered by "%s" extension',
-                    $definition->getKey(), $this->definitions[$definition->getKey()]->getExtensionClass()
-                ));
-            }
-
-            $this->definitions[$definition->getKey()] = $definition;
+        foreach ($extensions as $extension) {
+            $this->register($extension);
         }
     }
 
-    public function validateKey($key)
+    /**
+     * Ensure that a given key is valid.
+     *
+     * This is called when the user attempts to access a descriptor.
+     */
+    public function validateKey(string $key)
     {
         if (false === isset($this->definitions[$key])) {
             throw new \InvalidArgumentException(sprintf(
@@ -41,6 +37,11 @@ class Schema
         }
     }
 
+    /**
+     * Validate a single descriptor.
+     *
+     * This is called when a descriptor is set on the description.
+     */
     public function validate(DescriptorInterface $descriptor)
     {
         $this->validateKey($descriptor->getKey());
@@ -53,6 +54,25 @@ class Schema
                 $definition->getClass(),
                 get_class($descriptor)
             ));
+        }
+    }
+
+    private function register(ExtensionInterface $extension)
+    {
+        $builder = new Builder(get_class($extension));
+        $extension->buildSchema($builder);
+
+        foreach ($builder->getDefinitions() as $definition) {
+            $key = sprintf('%s.%s', $extension->getName(), $definition->getKey());
+
+            if (isset($this->definitions[$key])) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Descriptor key "%s" for was already registered by "%s" extension',
+                    $key, $this->definitions[$key]->getExtensionClass()
+                ));
+            }
+
+            $this->definitions[$key] = $definition;
         }
     }
 }

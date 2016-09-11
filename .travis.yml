@@ -14,4 +14,6 @@ matrix:
 before_install: composer self-update
 install: composer update --prefer-dist
 
-script: phpunit --coverage-text
+script: 
+    - phpunit --coverage-text
+    - ./vendor/bin/phpbench run
