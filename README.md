@@ -1,6 +1,6 @@
 # Psi Description
 
-[![Build Status](https://travis-ci.org/psiphp/content-type.svg?branch=master)](https://travis-ci.org/psiphp/content-type)
+[![Build Status](https://travis-ci.org/psiphp/description.svg?branch=master)](https://travis-ci.org/psiphp/description)
 [![StyleCI](https://styleci.io/repos/66929406/shield)](https://styleci.io/repos/59910930)
 
 This component is part of the Psi Content Management Framework
