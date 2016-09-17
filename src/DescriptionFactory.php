@@ -1,19 +1,16 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2015 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Psi\Component\Description;
 
-use Puli\Repository\Api\Object\PuliObject;
 use Psi\Component\Description\Schema\Schema;
 
+/**
+ * This class is the main point of entry for this component.
+ *
+ * It provides descriptions for objects.
+ */
 class DescriptionFactory
 {
     /**
@@ -36,22 +33,37 @@ class DescriptionFactory
     }
 
     /**
-     * Return a description of the given (CMF) Object.
+     * Return a description of the given subject.
      *
-     * @param object $object
+     * @param object|string $objectOrClass
      *
      * @return Description
      */
-    public function getPayloadDescriptionFor($object)
+    public function describe(Subject $subject): DescriptionInterface
     {
-        $description = new Description($object, $this->schema);
+        $description = $this->createDescription();
 
         foreach ($this->enhancers as $enhancer) {
-            if (false === $enhancer->supports($description)) {
+            if (false === $enhancer->supports($subject)) {
                 continue;
             }
 
-            $enhancer->enhance($description);
+            $enhancer->enhanceFromClass($description, $subject->getClass());
+
+            if ($subject->hasObject()) {
+                $enhancer->enhanceFromObject($description, $subject);
+            }
+        }
+
+        return $description;
+    }
+
+    private function createDescription(): DescriptionInterface
+    {
+        $description = new Description();
+
+        if ($this->schema) {
+            $description = new ValidatedDescription($description, $this->schema);
         }
 
         return $description;

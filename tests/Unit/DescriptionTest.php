@@ -14,7 +14,6 @@ namespace Psi\Component\Description\Tests\Unit;
 use Psi\Component\Description\Description;
 use Psi\Component\Description\Descriptor;
 use Puli\Repository\Api\Object\PuliObject;
-use Psi\Component\Description\Schema\Schema;
 use Psi\Component\Description\DescriptorInterface;
 
 class DescriptionTest extends \PHPUnit_Framework_TestCase
@@ -31,7 +30,7 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->object = new \stdClass;
+        $this->object = new \stdClass();
         $this->descriptor1 = $this->prophesize(DescriptorInterface::class);
         $this->descriptor2 = $this->prophesize(DescriptorInterface::class);
 
@@ -54,14 +53,13 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
      * It should throw an exception if a descriptor does not exist.
      *
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Descriptor "foo" is not supported for object
+     * @expectedExceptionMessage Descriptor "foo" is not supported
      */
     public function testDescriptorNotExist()
     {
         $description = $this->create();
         $description->get('foo');
     }
-
 
     /**
      * It should say if a descriptor exists or not.
@@ -76,6 +74,18 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * It should overwrite descriptors.
+     */
+    public function testOverwrite()
+    {
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal());
+        $description->set(clone $this->descriptor1->reveal());
+
+        $this->assertTrue($description->has('foo'));
+    }
+
+    /**
      * It should return all descriptors.
      */
     public function testReturnAll()
@@ -87,17 +97,8 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(2, $description->all());
     }
 
-    /**
-     * It should return the object that it was constructed with.
-     */
-    public function testGetObject()
-    {
-        $description = $this->create();
-        $this->assertSame($this->object, $description->getObject());
-    }
-
     protected function create()
     {
-        return  new Description($this->object);
+        return new Description();
     }
 }

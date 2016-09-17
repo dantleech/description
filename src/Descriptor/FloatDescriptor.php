@@ -6,17 +6,14 @@ namespace Psi\Component\Description\Descriptor;
 
 use Psi\Component\Description\DescriptorInterface;
 
-/**
- * Descriptor for an array of values.
- */
-class ArrayDescriptor implements DescriptorInterface
+class FloatDescriptor implements DescriptorInterface
 {
     private $key;
-    private $values;
+    private $value;
 
-    public function __construct(string $key, array $values)
+    public function __construct(string $key, float $value)
     {
-        $this->values = $values;
+        $this->value = $value;
         $this->key = $key;
     }
 
@@ -29,10 +26,10 @@ class ArrayDescriptor implements DescriptorInterface
     }
 
     /**
-     * Return an array of values.
+     * Return the float value.
      */
-    public function getValues(): array
+    public function getValue(): float
     {
-        return $this->values;
+        return $this->value;
     }
 }

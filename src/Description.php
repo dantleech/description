@@ -1,20 +1,8 @@
 <?php
 
-/*
- * This file is part of the Symfony CMF package.
- *
- * (c) 2011-2015 Symfony CMF
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+declare(strict_types=1);
 
 namespace Psi\Component\Description;
-
-use Psi\Component\Description\Schema\Schema;
-use Psi\Component\Description\DescriptorInterface;
-use Psi\Component\Description\Descriptor\ScalarDescriptor;
-use Psi\Component\Description\DescriptionInterface;
 
 /**
  * Descriptive metadata for objects.
@@ -27,25 +15,14 @@ class Description implements DescriptionInterface
     private $descriptors = [];
 
     /**
-     * @var object
-     */
-    private $object;
-
-    public function __construct($object)
-    {
-        $this->object = $object;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function get($descriptorKey): DescriptorInterface
     {
         if (!isset($this->descriptors[$descriptorKey])) {
             throw new \InvalidArgumentException(sprintf(
-                'Descriptor "%s" is not supported for object of class "%s". Supported descriptors: "%s"',
+                'Descriptor "%s" is not supported',
                 $descriptorKey,
-                get_class($this->object),
                 implode('", "', array_keys($this->descriptors))
             ));
         }
@@ -75,13 +52,5 @@ class Description implements DescriptionInterface
     public function set(DescriptorInterface $descriptor)
     {
         $this->descriptors[$descriptor->getKey()] = $descriptor;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getObject()
-    {
-        return $this->object;
     }
 }

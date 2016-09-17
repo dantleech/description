@@ -6,17 +6,14 @@ namespace Psi\Component\Description\Descriptor;
 
 use Psi\Component\Description\DescriptorInterface;
 
-/**
- * Descriptor for an array of values.
- */
-class ArrayDescriptor implements DescriptorInterface
+class UriDescriptor implements DescriptorInterface
 {
+    private $uri;
     private $key;
-    private $values;
 
-    public function __construct(string $key, array $values)
+    public function __construct(string $key, $uri)
     {
-        $this->values = $values;
+        $this->uri = $uri;
         $this->key = $key;
     }
 
@@ -29,10 +26,10 @@ class ArrayDescriptor implements DescriptorInterface
     }
 
     /**
-     * Return an array of values.
+     * Return the URI string.
      */
-    public function getValues(): array
+    public function getValue(): string
     {
-        return $this->values;
+        return $this->uri;
     }
 }

@@ -13,21 +13,24 @@ namespace Psi\Component\Description\Tests\Unit\Repository;
 
 use Prophecy\Argument;
 use Psi\Component\Description\Description;
-use Psi\Component\Description\DescriptionEnhancerInterface;
+use Psi\Component\Description\EnhancerInterface;
 use Psi\Component\Description\DescriptionFactory;
-use Psi\Component\Description\DescriptionInterface;
-use Psi\Component\Description\DescriptorInterface;
+use Psi\Component\Description\ValidatedDescription;
+use Psi\Component\Description\Schema\Schema;
+use Psi\Component\Description\Subject;
 
 class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $enhancer1;
     private $enhancer2;
+    private $schema;
 
     public function setUp()
     {
-        $this->enhancer1 = $this->prophesize(DescriptionEnhancerInterface::class);
-        $this->enhancer2 = $this->prophesize(DescriptionEnhancerInterface::class);
-        $this->object = new \stdClass;
+        $this->enhancer1 = $this->prophesize(EnhancerInterface::class);
+        $this->enhancer2 = $this->prophesize(EnhancerInterface::class);
+        $this->schema = $this->prophesize(Schema::class);
+        $this->object = new \stdClass();
     }
 
     /**
@@ -35,32 +38,21 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetResourceDescription()
     {
-        $descriptor1 = $this->prophesize(DescriptorInterface::class);
-        $descriptor1->getKey()->willReturn('barfoo');
-        $descriptor2 = $this->prophesize(DescriptorInterface::class);
-        $descriptor2->getKey()->willReturn('foobar');
+        $subject = Subject::createFromObject($this->object);
 
-        $this->enhancer1->enhance(Argument::type(Description::class))
-            ->will(function ($args) use ($descriptor1) {
-                $description = $args[0];
-                $description->set($descriptor1->reveal());
-            });
-        $this->enhancer1->supports(Argument::type(Description::class))->willReturn(true);
-        $this->enhancer2->enhance(Argument::type(Description::class))
-            ->will(function ($args) use ($descriptor2) {
-                $description = $args[0];
-                $description->set($descriptor2->reveal());
-            });
-        $this->enhancer2->supports(Argument::type(Description::class))->willReturn(true);
+        $this->enhancer1->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldBeCalled();
+        $this->enhancer1->enhanceFromObject(Argument::type(Description::class), Argument::type(Subject::class))->shouldBeCalled();
+        $this->enhancer1->supports($subject)->willReturn(true);
+        $this->enhancer2->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldBeCalled();
+        $this->enhancer2->enhanceFromObject(Argument::type(Description::class), Argument::type(Subject::class))->shouldBeCalled();
+        $this->enhancer2->supports($subject)->willReturn(true);
 
         $description = $this->createFactory([
             $this->enhancer1->reveal(),
             $this->enhancer2->reveal(),
-        ])->getPayloadDescriptionFor($this->object);
+        ])->describe($subject);
 
         $this->assertInstanceOf(Description::class, $description);
-        $this->assertSame($descriptor1->reveal(), $description->get('barfoo'));
-        $this->assertSame($descriptor2->reveal(), $description->get('foobar'));
     }
 
     /**
@@ -68,29 +60,61 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testIgnoreNonSupporters()
     {
-        $this->enhancer1->enhance(Argument::cetera())->shouldNotBeCalled();
-        $this->enhancer1->supports(Argument::type(Description::class))->willReturn(false);
+        $subject = Subject::createFromObject($this->object);
+        $this->enhancer1->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldNotBeCalled();
+        $this->enhancer1->enhanceFromObject(Argument::type(Description::class), Argument::type(Subject::class))->shouldNotBeCalled();
+        $this->enhancer1->supports($subject)->willReturn(false);
 
-        $this->enhancer2->enhance(Argument::cetera())->shouldBeCalled();
-        $this->enhancer2->supports(Argument::type(Description::class))->willReturn(true);
+        $this->enhancer2->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldBeCalled();
+        $this->enhancer2->enhanceFromObject(Argument::type(Description::class), Argument::type(Subject::class))->shouldBeCalled();
+        $this->enhancer2->supports($subject)->willReturn(true);
 
         $this->createFactory([
             $this->enhancer1->reveal(),
             $this->enhancer2->reveal(),
-        ])->getPayloadDescriptionFor($this->object);
+        ])->describe($subject);
     }
 
     /**
-     * It should work when no enhancers are provided.
+     * It should return a non-validating description when no schema is passed.
      */
-    public function testNoEnhancers()
+    public function testNoSchema()
     {
-        $description = $this->createFactory([])->getPayloadDescriptionFor($this->object);
-        $this->assertInstanceOf(Description::class, $description);
+        $subject = Subject::createFromObject($this->object);
+
+        $description = $this->createFactory([])->describe($subject);
+        $this->assertEquals(Description::class, get_class($description));
     }
 
-    private function createFactory(array $enhancers)
+    /**
+     * It should return a validated description when the schema is passed.
+     */
+    public function testValidatedDescription()
     {
-        return new DescriptionFactory($enhancers);
+        $subject = Subject::createFromObject($this->object);
+
+        $description = $this->createFactory([], $this->schema->reveal())->describe($subject);
+        $this->assertEquals(ValidatedDescription::class, get_class($description));
+    }
+
+    /**
+     * It should not invoke an object description if no object is available.
+     */
+    public function testEnhanceNoObject()
+    {
+        $subject = Subject::createFromClass(\stdClass::class);
+
+        $this->enhancer1->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldBeCalled();
+        $this->enhancer1->enhanceFromObject(Argument::type(Description::class), Argument::type(Subject::class))->shouldNotBeCalled();
+        $this->enhancer1->supports($subject)->willReturn(true);
+
+        $this->createFactory([
+            $this->enhancer1->reveal(),
+        ])->describe($subject);
+    }
+
+    private function createFactory(array $enhancers, Schema $schema = null)
+    {
+        return new DescriptionFactory($enhancers, $schema);
     }
 }

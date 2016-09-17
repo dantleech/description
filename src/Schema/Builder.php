@@ -1,8 +1,8 @@
 <?php
 
-namespace Psi\Component\Description\Schema;
+declare(strict_types=1);
 
-use Psi\Component\Description\Schema\Definition;
+namespace Psi\Component\Description\Schema;
 
 class Builder
 {
