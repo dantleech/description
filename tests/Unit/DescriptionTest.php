@@ -33,8 +33,10 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
         $this->object = new \stdClass();
         $this->descriptor1 = $this->prophesize(DescriptorInterface::class);
         $this->descriptor2 = $this->prophesize(DescriptorInterface::class);
+        $this->descriptor1override = $this->prophesize(DescriptorInterface::class);
 
         $this->descriptor1->getKey()->willReturn('foo');
+        $this->descriptor1override->getKey()->willReturn('foo');
         $this->descriptor2->getKey()->willReturn('bar');
     }
 
@@ -74,15 +76,16 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * It should overwrite descriptors.
+     * It should override descriptors.
      */
-    public function testOverwrite()
+    public function testOverride()
     {
         $description = $this->create();
         $description->set($this->descriptor1->reveal());
-        $description->set(clone $this->descriptor1->reveal());
+        $description->set($this->descriptor1override->reveal());
 
         $this->assertTrue($description->has('foo'));
+        $this->assertSame($this->descriptor1override->reveal(), $description->get('foo'));
     }
 
     /**
@@ -95,6 +98,30 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
         $description->set($this->descriptor2->reveal());
 
         $this->assertCount(2, $description->all());
+    }
+
+    /**
+     * Descriptiors with a lower priority should not override descriptors with a higher priority.
+     */
+    public function testPriorityLower()
+    {
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal(), 255);
+        $description->set($this->descriptor1override->reveal(), 50);
+
+        $this->assertSame($this->descriptor1->reveal(), $description->get('foo'));
+    }
+
+    /**
+     * Descriptors with a higher priority should override descriptors with a lower priority.
+     */
+    public function testPriorityHigher()
+    {
+        $description = $this->create();
+        $description->set($this->descriptor1->reveal(), 255);
+        $description->set($this->descriptor1override->reveal(), 550);
+
+        $this->assertSame($this->descriptor1override->reveal(), $description->get('foo'));
     }
 
     protected function create()

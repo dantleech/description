@@ -15,6 +15,11 @@ class Description implements DescriptionInterface
     private $descriptors = [];
 
     /**
+     * @var array
+     */
+    private $priorities = [];
+
+    /**
      * {@inheritdoc}
      */
     public function get($descriptorKey): DescriptorInterface
@@ -49,8 +54,16 @@ class Description implements DescriptionInterface
     /**
      * {@inheritdoc}
      */
-    public function set(DescriptorInterface $descriptor)
+    public function set(DescriptorInterface $descriptor, int $priority = 0)
     {
+        // do not overwrite descriptor if a lower priority is given.
+        if (isset($this->priorities[$descriptor->getKey()])) {
+            if ($priority < $this->priorities[$descriptor->getKey()]) {
+                return;
+            }
+        }
+
         $this->descriptors[$descriptor->getKey()] = $descriptor;
+        $this->priorities[$descriptor->getKey()] = $priority;
     }
 }
