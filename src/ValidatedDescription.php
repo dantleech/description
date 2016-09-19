@@ -6,7 +6,6 @@ namespace Psi\Component\Description;
 
 use Psi\Component\Description\Schema\Schema;
 
-
 /**
  * Decorator for description which validates the descriptions based
  * on the given Schema.
@@ -63,9 +62,9 @@ class ValidatedDescription implements DescriptionInterface
     /**
      * {@inheritdoc}
      */
-    public function set(DescriptorInterface $descriptor)
+    public function set(DescriptorInterface $descriptor, int $priority = 0)
     {
         $this->schema->validate($descriptor);
-        $this->description->set($descriptor);
+        $this->description->set($descriptor, $priority);
     }
 }

@@ -45,7 +45,7 @@ interface DescriptionInterface
      *   defined in the Descriptor class.
      *
      * @param string $descriptor
-     * @param mixed  $value
+     * @param int    $priority
      */
-    public function set(DescriptorInterface $descriptor);
+    public function set(DescriptorInterface $descriptor, int $priority = 0);
 }

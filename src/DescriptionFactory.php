@@ -9,7 +9,8 @@ use Psi\Component\Description\Schema\Schema;
 /**
  * This class is the main point of entry for this component.
  *
- * It provides descriptions for objects.
+ * It provides descriptions for objects. Descriptions are populated by
+ * "enhancers" as given in the constructor. The order of the enhancers is important
  */
 class DescriptionFactory
 {
@@ -23,9 +24,6 @@ class DescriptionFactory
      */
     private $schema;
 
-    /**
-     * @param array $enhancers
-     */
     public function __construct(array $enhancers, Schema $schema = null)
     {
         $this->enhancers = $enhancers;
