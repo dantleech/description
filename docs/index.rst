@@ -40,6 +40,7 @@ Workflow
 - Description factory creates a new description and passes it to description
   *enhancers*.
 - Description enhancers add descriptors (e.g. title, edit URL, etc)
+- User can retrieve descriptors for an object.
 
 Usage
 -----
