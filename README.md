@@ -24,5 +24,4 @@ $ composer require 'psiphp/description'
 
 ## Contributing
 
-Just go ahead and create a PR, you know you need to.
-
+Just go ahead and create a PR, you know you need to..
