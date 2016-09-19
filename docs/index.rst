@@ -27,8 +27,7 @@ effectively. It provides standard descriptors and a factory for
 specific descriptor. It is your job to provide *enhancers* that will set the
 *descriptors* on the *description*.
 
-For example, a [Sonata
-Admin](https://sonata-project.org/bundles/admin/3-x/doc/index.html) enhancer
+For example, a `Sonata Admin`_ enhancer
 could use the metadata from the Sonata system to provide the *title* as Sonata
 would present it, and provide links to the pages where the object can be
 modified.
@@ -110,3 +109,5 @@ descriptor, useful exception messages are provided.
     Schema validation is an unnecessary (though negligble e.g. 40μs vs. 20μs)
     overhead in production and it can be disabled by simply not passing the
     schema to the factory.
+
+.. _Sonata Admin: https://sonata-project.org/bundles/admin/3-x/doc/index.html
