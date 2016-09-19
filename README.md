@@ -12,7 +12,7 @@ object instances. A description is an object made up of standardized
 ## Documentation
 
 You can find out more about this component and others
-[here](https://readthedocs.org/psiphp).
+[here](https://psiphp.readthedocs.io/en/latest/components/description/docs/index.html).
 
 ## Installation
 
