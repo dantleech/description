@@ -2,8 +2,8 @@ language: php
 
 php:
   - 7.0
-
 sudo: false
+
 cache:
   directories:
     - $HOME/.composer/cache/files
@@ -11,9 +11,6 @@ cache:
 matrix:
   fast_finish: true
 
-before_install: composer self-update
-install: composer update --prefer-dist
-
-script: 
-    - phpunit --coverage-text
-    - ./vendor/bin/phpbench run
+before_install: ci/travis/before_install.sh
+install: ci/travis/install.sh
+script: ci/travis/script.sh
