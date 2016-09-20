@@ -1,5 +1,5 @@
 {
-    "name": "psi/description",
+    "name": "psiphp/description",
     "description": "Allow third-party libraries to add descriptions to an object instance",
     "homepage": "http://cmf.symfony.com",
     "license": "MIT",
