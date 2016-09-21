@@ -4,6 +4,8 @@ Description
 The description component allows you to obtain standardized values (e.g.
 titles, links, descriptions) for object instances or class names.
 
+.. image:: images/cube.png
+
 Problem
 -------
 
