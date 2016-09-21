@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Psi\Component\Description\Schema;
 
 use Psi\Component\Description\DescriptorInterface;
+use Psi\Component\Description\Schema\Definition;
 
 /**
  * Description schema defines which descriptors are allowed to be
@@ -55,6 +56,27 @@ class Schema
                 get_class($descriptor)
             ));
         }
+    }
+
+    /**
+     * Return the schema definitions.
+     *
+     * @return Definition[]
+     */
+    public function getDefinitions(): array
+    {
+        return $this->definitions;
+    }
+
+    public function getDefinition($key): Definition
+    {
+        if (!isset($this->definitions[$key])) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown definition "%s"', $key
+            ));
+        }
+
+        return $this->definitions[$key];
     }
 
     private function register(ExtensionInterface $extension)
