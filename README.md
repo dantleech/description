@@ -1,7 +1,7 @@
 # Psi Description
 
 [![Build Status](https://travis-ci.org/psiphp/description.svg?branch=master)](https://travis-ci.org/psiphp/description)
-[![StyleCI](https://styleci.io/repos/66929406/shield)](https://styleci.io/repos/59910930)
+[![StyleCI](https://styleci.io/repos/66929406/shield)](https://styleci.io/repos/66929406)
 [![Latest Stable Version](https://poser.pugx.org/psiphp/description/version.png)](https://packagist.org/packages/psiphp/description)
 [![Total Downloads](https://poser.pugx.org/psiphp/content-type/d/total.png)](https://packagist.org/packages/psiphp/description)
 
