@@ -14,8 +14,8 @@ class HierarchyExtensionTest extends ExtensionTestCase
     public function testExtension()
     {
         $description = $this->build(new HierarchyExtension());
-        $description->set(new BooleanDescriptor('hierarchy.allow_children', true));
-        $description->set(new ArrayDescriptor('hierarchy.children_types', ['foo', 'bar']));
-        $description->set(new UriCollectionDescriptor('hierarchy.uris.create_child', ['foo' => 'https://example.com/edit/123']));
+        $description->set('hierarchy.allow_children', new BooleanDescriptor(true));
+        $description->set('hierarchy.children_types', new ArrayDescriptor(['foo', 'bar']));
+        $description->set('hierarchy.uris.create_child', new UriCollectionDescriptor(['foo' => 'https://example.com/edit/123']));
     }
 }

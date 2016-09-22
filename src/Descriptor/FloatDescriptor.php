@@ -8,21 +8,11 @@ use Psi\Component\Description\DescriptorInterface;
 
 class FloatDescriptor implements DescriptorInterface
 {
-    private $key;
     private $value;
 
-    public function __construct(string $key, float $value)
+    public function __construct(float $value)
     {
         $this->value = $value;
-        $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

@@ -8,21 +8,11 @@ use Psi\Component\Description\DescriptorInterface;
 
 class BooleanDescriptor implements DescriptorInterface
 {
-    private $key;
     private $value;
 
-    public function __construct(string $key, bool $value)
+    public function __construct(bool $value)
     {
         $this->value = (bool) $value;
-        $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

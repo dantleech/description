@@ -14,14 +14,14 @@ class FooEnhancer implements EnhancerInterface
 {
     public function enhanceFromClass(DescriptionInterface $description, \ReflectionClass $class)
     {
-        $description->set(new ClassDescriptor('std.class', $class));
-        $description->set(new BooleanDescriptor('hierarchy.allow_children', true));
-        $description->set(new UriDescriptor('std.uri.update', 'https://www.example.com/foobar'));
+        $description->set('std.class', new ClassDescriptor($class));
+        $description->set('hierarchy.allow_children', new BooleanDescriptor(true));
+        $description->set('std.uri.update', new UriDescriptor('https://www.example.com/foobar'));
     }
 
     public function enhanceFromObject(DescriptionInterface $description, Subject $subject)
     {
-        $description->set(new StringDescriptor('std.title', $subject->getObject()->title));
+        $description->set('std.title', new StringDescriptor($subject->getObject()->title));
     }
 
     public function supports(Subject $subject)

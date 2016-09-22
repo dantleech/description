@@ -24,7 +24,7 @@ class ValidatedDescriptionTest extends DescriptionTest
      */
     public function testDescriptorSetGet()
     {
-        $this->schema->validate(Argument::type(DescriptorInterface::class))->shouldBeCalled();
+        $this->schema->validate('foo', Argument::type(DescriptorInterface::class))->shouldBeCalled();
         $this->schema->validateKey('foo')->shouldBeCalled();
         parent::testDescriptorSetGet();
     }
@@ -34,7 +34,7 @@ class ValidatedDescriptionTest extends DescriptionTest
      */
     public function testHasDescriptor()
     {
-        $this->schema->validate(Argument::type(DescriptorInterface::class))->shouldBeCalled();
+        $this->schema->validate('foo', Argument::type(DescriptorInterface::class))->shouldBeCalled();
         $this->schema->validateKey('baz')->shouldBeCalled();
         $this->schema->validateKey('foo')->shouldBeCalled();
         parent::testHasDescriptor();

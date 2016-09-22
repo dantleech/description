@@ -12,15 +12,13 @@ class UriCollectionDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new UriCollectionDescriptor('foo', [
+        $this->descriptor = new UriCollectionDescriptor([
             'foo' => 'https://foobar.com/admin/edit/123',
         ]);
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
-
         $uris = iterator_to_array($this->descriptor);
         $this->assertCount(1, $uris);
         $this->assertArrayHasKey('foo', $uris);

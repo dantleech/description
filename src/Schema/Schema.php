@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Psi\Component\Description\Schema;
 
 use Psi\Component\Description\DescriptorInterface;
-use Psi\Component\Description\Schema\Definition;
 
 /**
  * Description schema defines which descriptors are allowed to be
@@ -39,19 +38,20 @@ class Schema
     }
 
     /**
-     * Validate a single descriptor.
+     * Validate the descriptor key AND ensures that the given
+     * descriptor is of the correct type according to the schema.
      *
      * This is called when a descriptor is set on the description.
      */
-    public function validate(DescriptorInterface $descriptor)
+    public function validate(string $key, DescriptorInterface $descriptor)
     {
-        $this->validateKey($descriptor->getKey());
-        $definition = $this->definitions[$descriptor->getKey()];
+        $this->validateKey($key);
+        $definition = $this->definitions[$key];
 
         if (get_class($descriptor) !== $definition->getClass()) {
             throw new \InvalidArgumentException(sprintf(
                 'Descriptor with key "%s" must be of class "%s", got "%s"',
-                $descriptor->getKey(),
+                $key,
                 $definition->getClass(),
                 get_class($descriptor)
             ));

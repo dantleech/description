@@ -12,13 +12,11 @@ class UriDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new UriDescriptor('foo', 'https://foobar.com/admin/edit/123');
+        $this->descriptor = new UriDescriptor('https://foobar.com/admin/edit/123');
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
-
         $this->assertEquals('https://foobar.com/admin/edit/123', $this->descriptor->getValue());
     }
 }

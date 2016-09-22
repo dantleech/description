@@ -12,12 +12,11 @@ class ArrayDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new ArrayDescriptor('foo', ['foo' => 'bar']);
+        $this->descriptor = new ArrayDescriptor(['foo' => 'bar']);
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
         $this->assertEquals(['foo' => 'bar'], $this->descriptor->getValues());
     }
 }

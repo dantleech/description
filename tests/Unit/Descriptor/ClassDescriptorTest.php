@@ -12,12 +12,11 @@ class ClassDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new ClassDescriptor('foo', new \ReflectionClass(\stdClass::class));
+        $this->descriptor = new ClassDescriptor(new \ReflectionClass(\stdClass::class));
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
         $this->assertEquals(new \ReflectionClass(\stdClass::class), $this->descriptor->getClass());
     }
 }

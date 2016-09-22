@@ -54,16 +54,16 @@ class Description implements DescriptionInterface
     /**
      * {@inheritdoc}
      */
-    public function set(DescriptorInterface $descriptor, int $priority = 0)
+    public function set(string $key, DescriptorInterface $descriptor, int $priority = 0)
     {
         // do not overwrite descriptor if a lower priority is given.
-        if (isset($this->priorities[$descriptor->getKey()])) {
-            if ($priority < $this->priorities[$descriptor->getKey()]) {
+        if (isset($this->priorities[$key])) {
+            if ($priority < $this->priorities[$key]) {
                 return;
             }
         }
 
-        $this->descriptors[$descriptor->getKey()] = $descriptor;
-        $this->priorities[$descriptor->getKey()] = $priority;
+        $this->descriptors[$key] = $descriptor;
+        $this->priorities[$key] = $priority;
     }
 }
