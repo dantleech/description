@@ -9,20 +9,10 @@ use Psi\Component\Description\DescriptorInterface;
 class UriDescriptor implements DescriptorInterface
 {
     private $uri;
-    private $key;
 
-    public function __construct(string $key, $uri)
+    public function __construct($uri)
     {
         $this->uri = $uri;
-        $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

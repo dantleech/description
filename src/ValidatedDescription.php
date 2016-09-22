@@ -62,9 +62,9 @@ class ValidatedDescription implements DescriptionInterface
     /**
      * {@inheritdoc}
      */
-    public function set(DescriptorInterface $descriptor, int $priority = 0)
+    public function set(string $key, DescriptorInterface $descriptor, int $priority = 0)
     {
-        $this->schema->validate($descriptor);
-        $this->description->set($descriptor, $priority);
+        $this->schema->validate($key, $descriptor);
+        $this->description->set($key, $descriptor, $priority);
     }
 }

@@ -16,18 +16,18 @@ class StandardExtensionTest extends ExtensionTestCase
     {
         $description = $this->build(new StandardExtension());
 
-        $description->set(new ClassDescriptor('std.class', new \ReflectionClass(\stdClass::class)));
-        $description->set(new StringDescriptor('std.class.alias', 'std'));
-        $description->set(new StringDescriptor('std.title', 'Foobar'));
-        $description->set(new StringDescriptor('std.description', 'All about foobar'));
-        $description->set(new UriDescriptor('std.image', 'https://example.com/edit/123'));
-        $description->set(new DateTimeDescriptor('std.created_at', new \DateTime()));
-        $description->set(new DateTimeDescriptor('std.updated_at', new \DateTime()));
+        $description->set('std.class', new ClassDescriptor(new \ReflectionClass(\stdClass::class)));
+        $description->set('std.class.alias', new StringDescriptor('std'));
+        $description->set('std.title', new StringDescriptor('Foobar'));
+        $description->set('std.description', new StringDescriptor('All about foobar'));
+        $description->set('std.image', new UriDescriptor('https://example.com/edit/123'));
+        $description->set('std.created_at', new DateTimeDescriptor(new \DateTime()));
+        $description->set('std.updated_at', new DateTimeDescriptor(new \DateTime()));
 
-        $description->set(new UriDescriptor('std.uri.create', 'https://example.com/edit/123'));
-        $description->set(new UriDescriptor('std.uri.show', 'https://example.com/edit/123'));
-        $description->set(new UriDescriptor('std.uri.update', 'https://example.com/edit/123'));
-        $description->set(new UriDescriptor('std.uri.delete', 'https://example.com/edit/123'));
-        $description->set(new UriDescriptor('std.uri.list', 'https://example.com/edit/123'));
+        $description->set('std.uri.create', new UriDescriptor('https://example.com/edit/123'));
+        $description->set('std.uri.show', new UriDescriptor('https://example.com/edit/123'));
+        $description->set('std.uri.update', new UriDescriptor('https://example.com/edit/123'));
+        $description->set('std.uri.delete', new UriDescriptor('https://example.com/edit/123'));
+        $description->set('std.uri.list', new UriDescriptor('https://example.com/edit/123'));
     }
 }

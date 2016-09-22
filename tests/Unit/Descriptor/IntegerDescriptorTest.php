@@ -12,12 +12,11 @@ class IntegerDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new IntegerDescriptor('foo', 123);
+        $this->descriptor = new IntegerDescriptor(123);
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
         $this->assertEquals(123, $this->descriptor->getValue());
     }
 }

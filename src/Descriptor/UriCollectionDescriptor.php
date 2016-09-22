@@ -9,12 +9,10 @@ use Psi\Component\Description\DescriptorInterface;
 class UriCollectionDescriptor implements DescriptorInterface, \IteratorAggregate
 {
     private $uris;
-    private $key;
 
-    public function __construct(string $key, array $uris)
+    public function __construct(array $uris)
     {
         $this->uris = $uris;
-        $this->key = $key;
     }
 
     /**
@@ -25,14 +23,6 @@ class UriCollectionDescriptor implements DescriptorInterface, \IteratorAggregate
     public function getValues(): array
     {
         return $this->uris;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

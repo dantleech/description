@@ -34,10 +34,6 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
         $this->descriptor1 = $this->prophesize(DescriptorInterface::class);
         $this->descriptor2 = $this->prophesize(DescriptorInterface::class);
         $this->descriptor1override = $this->prophesize(DescriptorInterface::class);
-
-        $this->descriptor1->getKey()->willReturn('foo');
-        $this->descriptor1override->getKey()->willReturn('foo');
-        $this->descriptor2->getKey()->willReturn('bar');
     }
 
     /**
@@ -46,7 +42,7 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testDescriptorSetGet()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal());
+        $description->set('foo', $this->descriptor1->reveal());
 
         $this->assertSame($this->descriptor1->reveal(), $description->get('foo'));
     }
@@ -69,7 +65,7 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testHasDescriptor()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal());
+        $description->set('foo', $this->descriptor1->reveal());
 
         $this->assertTrue($description->has('foo'));
         $this->assertFalse($description->has('baz'));
@@ -81,8 +77,8 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testOverride()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal());
-        $description->set($this->descriptor1override->reveal());
+        $description->set('foo', $this->descriptor1->reveal());
+        $description->set('foo', $this->descriptor1override->reveal());
 
         $this->assertTrue($description->has('foo'));
         $this->assertSame($this->descriptor1override->reveal(), $description->get('foo'));
@@ -94,8 +90,8 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testReturnAll()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal());
-        $description->set($this->descriptor2->reveal());
+        $description->set('foo', $this->descriptor1->reveal());
+        $description->set('bar', $this->descriptor2->reveal());
 
         $this->assertCount(2, $description->all());
     }
@@ -106,8 +102,8 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testPriorityLower()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal(), 255);
-        $description->set($this->descriptor1override->reveal(), 50);
+        $description->set('foo', $this->descriptor1->reveal(), 255);
+        $description->set('foo', $this->descriptor1override->reveal(), 50);
 
         $this->assertSame($this->descriptor1->reveal(), $description->get('foo'));
     }
@@ -118,8 +114,8 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
     public function testPriorityHigher()
     {
         $description = $this->create();
-        $description->set($this->descriptor1->reveal(), 255);
-        $description->set($this->descriptor1override->reveal(), 550);
+        $description->set('foo', $this->descriptor1->reveal(), 255);
+        $description->set('foo', $this->descriptor1override->reveal(), 550);
 
         $this->assertSame($this->descriptor1override->reveal(), $description->get('foo'));
     }

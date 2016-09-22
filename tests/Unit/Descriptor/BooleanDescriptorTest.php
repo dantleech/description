@@ -12,12 +12,11 @@ class BooleanDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new BooleanDescriptor('foo', true);
+        $this->descriptor = new BooleanDescriptor(true);
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
         $this->assertTrue($this->descriptor->getValue());
     }
 }

@@ -23,7 +23,7 @@ none is set.
 Solution
 --------
 
-The description compoenent presents a framework in which the problem can be solved
+The description component presents a framework in which the problem can be solved
 effectively. It provides standard descriptors and a factory for
 *descriptions*. Clients can then query the description to see if it has a
 specific descriptor. It is your job to provide *enhancers* that will set the
@@ -64,11 +64,16 @@ objects.
     ]);
 
     $description = $descriptionFactory->getDescriptionFor($post);
-    echo $description->get('std.title')->getValue(); // e.g. "My Blog Post"
-    echo get_class($description->get('std.title')) // Psi\Component\Description\Descriptor\StringDesciptor
+
+    echo $description->get('std.title')->getValue(); 
+    // "My Blog Post"
+
+    echo get_class($description->get('std.title')) 
+    // Psi\Component\Description\Descriptor\StringDesciptor
 
     $description = $descriptionFactory->getDescriptionFor($page);
-    echo $description->get('std.title')->getValue(); // e.g. "About Us"
+    echo $description->get('std.title')->getValue(); 
+    // e.g. "About Us"
 
 The component includes a number of standard descriptors by default, including
 a the (real) class FQN, URLs for viewing, updating or removing the instance,

@@ -8,21 +8,11 @@ use Psi\Component\Description\DescriptorInterface;
 
 class DateTimeDescriptor implements DescriptorInterface
 {
-    private $key;
     private $dateTime;
 
-    public function __construct(string $key, \DateTime $dateTime)
+    public function __construct(\DateTime $dateTime)
     {
         $this->dateTime = $dateTime;
-        $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

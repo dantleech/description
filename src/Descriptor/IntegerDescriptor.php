@@ -8,21 +8,11 @@ use Psi\Component\Description\DescriptorInterface;
 
 class IntegerDescriptor implements DescriptorInterface
 {
-    private $key;
     private $value;
 
-    public function __construct(string $key, int $value)
+    public function __construct(int $value)
     {
         $this->value = $value;
-        $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getKey(): string
-    {
-        return $this->key;
     }
 
     /**

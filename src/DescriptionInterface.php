@@ -44,8 +44,9 @@ interface DescriptionInterface
      * - Where possible the descriptor should be the value of one of the constants
      *   defined in the Descriptor class.
      *
+     * @param string $key
      * @param string $descriptor
      * @param int    $priority
      */
-    public function set(DescriptorInterface $descriptor, int $priority = 0);
+    public function set(string $key, DescriptorInterface $descriptor, int $priority = 0);
 }

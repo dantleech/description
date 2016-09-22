@@ -27,8 +27,4 @@ namespace Psi\Component\Description;
  */
 interface DescriptorInterface
 {
-    /**
-     * Return the key which corresponds to this descriptor, e.g. "title".
-     */
-    public function getKey();
 }

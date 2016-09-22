@@ -12,12 +12,11 @@ class FloatDescriptorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->descriptor = new FloatDescriptor('foo', 123.12);
+        $this->descriptor = new FloatDescriptor(123.12);
     }
 
     public function testGetValue()
     {
-        $this->assertEquals('foo', $this->descriptor->getKey());
         $this->assertEquals(123.12, $this->descriptor->getValue());
     }
 }
