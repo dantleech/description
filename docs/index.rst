@@ -79,6 +79,57 @@ The component includes a number of standard descriptors by default, including
 a the (real) class FQN, URLs for viewing, updating or removing the instance,
 URLs for thumbnail images, etc.
 
+Subject Resolvers
+-----------------
+
+Sometimes an object may act as a proxy for another object (as is the case with
+CMF/Puli resources for example). In these cases it is desirable to describe
+the object that is proxied and not the proxy.
+
+The description allows you to register "subject resolvers" which can "swap"
+the subject before the description is made.
+
+The resolver must accept a subject and return a subject:
+
+.. code-block:: php
+
+    class MySubjectResolver implements SubjectResolverInterface
+    {
+        public function resolve(Subject $subject): Subject
+        {
+            if ($subject->hasObject() && $subject->getClass()->isSubclassOf(MySpecialInterface::class)) {
+                return Subject::createFromObject($subject->getObject()->getProxiedObject());
+            }
+
+            return $subject;
+        }
+    }
+
+.. note::
+
+    The subject ay not have an object, if you call the `$subject->getObject()` method
+    you must ALWAYS first check that the subject has an object
+    `$subject->hasObject()`.
+
+You can then add it to the description factory using the second argument:
+
+.. code-block:: php
+
+    <?php
+
+    use Psi\Component\Description\DescriptionFactory;
+    use Psi\Component\Description\Schema\Schema;
+    use Psi\Component\Description\Schema\StandardExtension;
+
+    $descriptionFactory = new DescriptionFactory([
+        new MyAdminEnhancer($myAdminMetadataFactory);
+    ], [
+        new MySubjectResolver(),
+    ]);
+
+Now whenever an object implementing ``MySpecialInterface`` is given to the
+description the subject will be replaced.
+
 Schema Validation
 -----------------
 
@@ -106,7 +157,7 @@ descriptor, useful exception messages are provided.
 
     $descriptionFactory = new DescriptionFactory([
         new MyAdminEnhancer($myAdminMetadataFactory);
-    ], $schema);
+    ], [], $schema);
 
     $description = $descriptionFactory->getDescriptionFor($page);
     $description->get('invalid key'); // throws exception

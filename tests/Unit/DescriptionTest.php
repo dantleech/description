@@ -13,19 +13,11 @@ namespace Psi\Component\Description\Tests\Unit;
 
 use Psi\Component\Description\Description;
 use Psi\Component\Description\Descriptor;
-use Puli\Repository\Api\Object\PuliObject;
 use Psi\Component\Description\DescriptorInterface;
 
 class DescriptionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Description
-     */
     protected $description;
-
-    /**
-     * @var PuliObject
-     */
     private $object;
 
     public function setUp()

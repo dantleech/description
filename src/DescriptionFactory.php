@@ -20,26 +20,38 @@ class DescriptionFactory
     private $enhancers = [];
 
     /**
+     * @var SubjectResolverInterface[]
+     */
+    private $resolvers = [];
+
+    /**
      * @var Schema
      */
     private $schema;
 
-    public function __construct(array $enhancers, Schema $schema = null)
+    public function __construct(array $enhancers, array $resolvers = [], Schema $schema = null)
     {
+        // type safety ...
+        array_walk($enhancers, function (EnhancerInterface $enhancer) {
+        });
+        array_walk($resolvers, function (SubjectResolverInterface $enhancer) {
+        });
+
         $this->enhancers = $enhancers;
+        $this->resolvers = $resolvers;
         $this->schema = $schema;
     }
 
     /**
      * Return a description of the given subject.
-     *
-     * @param object|string $objectOrClass
-     *
-     * @return Description
      */
     public function describe(Subject $subject): DescriptionInterface
     {
         $description = $this->createDescription();
+
+        foreach ($this->resolvers as $resolver) {
+            $subject = $resolver->resolve($subject);
+        }
 
         foreach ($this->enhancers as $enhancer) {
             if (false === $enhancer->supports($subject)) {
