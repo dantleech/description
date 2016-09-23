@@ -26,7 +26,7 @@ class DescriptionTest extends \PHPUnit_Framework_TestCase
 
         $this->factory = new DescriptionFactory([
             new FooEnhancer(),
-        ], [], $schema);
+        ], $schema);
     }
 
     /**

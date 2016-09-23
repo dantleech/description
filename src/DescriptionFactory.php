@@ -29,7 +29,7 @@ class DescriptionFactory
      */
     private $schema;
 
-    public function __construct(array $enhancers, array $resolvers = [], Schema $schema = null)
+    public function __construct(array $enhancers, Schema $schema = null, array $resolvers = [])
     {
         // type safety ...
         array_walk($enhancers, function (EnhancerInterface $enhancer) {

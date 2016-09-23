@@ -142,6 +142,6 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
 
     private function createFactory(array $enhancers, array $resolvers = [], Schema $schema = null)
     {
-        return new DescriptionFactory($enhancers, $resolvers, $schema);
+        return new DescriptionFactory($enhancers, $schema, $resolvers);
     }
 }
