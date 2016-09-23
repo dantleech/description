@@ -18,17 +18,20 @@ use Psi\Component\Description\DescriptionFactory;
 use Psi\Component\Description\ValidatedDescription;
 use Psi\Component\Description\Schema\Schema;
 use Psi\Component\Description\Subject;
+use Psi\Component\Description\SubjectResolverInterface;
 
 class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $enhancer1;
     private $enhancer2;
+    private $resolver1;
     private $schema;
 
     public function setUp()
     {
         $this->enhancer1 = $this->prophesize(EnhancerInterface::class);
         $this->enhancer2 = $this->prophesize(EnhancerInterface::class);
+        $this->resolver1 = $this->prophesize(SubjectResolverInterface::class);
         $this->schema = $this->prophesize(Schema::class);
         $this->object = new \stdClass();
     }
@@ -93,7 +96,7 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $subject = Subject::createFromObject($this->object);
 
-        $description = $this->createFactory([], $this->schema->reveal())->describe($subject);
+        $description = $this->createFactory([], [], $this->schema->reveal())->describe($subject);
         $this->assertEquals(ValidatedDescription::class, get_class($description));
     }
 
@@ -113,8 +116,32 @@ class DescriptionFactoryTest extends \PHPUnit_Framework_TestCase
         ])->describe($subject);
     }
 
-    private function createFactory(array $enhancers, Schema $schema = null)
+    /**
+     * It should invoke resolvers and the subject should be replaced.
+     */
+    public function testResolve()
     {
-        return new DescriptionFactory($enhancers, $schema);
+        $subject = Subject::createFromObject(new \stdClass());
+        $resolvedSubject = Subject::createFromObject(new \stdClass());
+
+        $this->resolver1->resolve($subject)->will(function () use ($resolvedSubject) {
+            return $resolvedSubject;
+        });
+
+        $this->enhancer1->enhanceFromClass(Argument::type(Description::class), Argument::type(\ReflectionClass::class))->shouldBeCalled();
+        $this->enhancer1->enhanceFromObject(Argument::type(Description::class), Argument::is($resolvedSubject))->shouldBeCalled();
+        $this->enhancer1->supports(Argument::is($resolvedSubject))->willReturn(true);
+
+
+        $this->createFactory([
+            $this->enhancer1->reveal(),
+        ], [
+            $this->resolver1->reveal(),
+        ])->describe($subject);
+    }
+
+    private function createFactory(array $enhancers, array $resolvers = [], Schema $schema = null)
+    {
+        return new DescriptionFactory($enhancers, $resolvers, $schema);
     }
 }

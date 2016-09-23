@@ -24,7 +24,7 @@ class FactoryBench
     {
         $this->factory = new DescriptionFactory([
             new FooEnhancer(),
-        ]);
+        ], []);
 
         $schema = new Schema([
             new StandardExtension(),
@@ -33,7 +33,7 @@ class FactoryBench
 
         $this->validatedFactory = new DescriptionFactory([
             new FooEnhancer(),
-        ], $schema);
+        ], [], $schema);
     }
 
     public function benchFactory()
