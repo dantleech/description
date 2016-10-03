@@ -29,6 +29,11 @@ class StandardExtension implements ExtensionInterface
             'Resolved reflection class. Note that this should be the reflection of the *real* class '.
             '(as opposed to that of a proxy if applicable)'
         );
+        $builder->add(
+            'identifier',
+            StringDescriptor::class,
+            'Identifier for object (e.g. primary key / UUID)'
+        );
         $builder->add('class.alias', StringDescriptor::class, 'Alias for the class');
 
         $builder->add('title', StringDescriptor::class, 'Title to use for the object instance');
