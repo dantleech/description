@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/psiphp/description.svg?branch=master)](https://travis-ci.org/psiphp/description)
 [![StyleCI](https://styleci.io/repos/66929406/shield)](https://styleci.io/repos/66929406)
 [![Scrutinizer Code
-Quality](https://scrutinizer-ci.com/g/psiphp/content-type/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/psiphp/description/?branch=master)
+Quality](https://scrutinizer-ci.com/g/psiphp/description/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/psiphp/description/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/psiphp/description/version.png)](https://packagist.org/packages/psiphp/description)
 [![Total Downloads](https://poser.pugx.org/psiphp/content-type/d/total.png)](https://packagist.org/packages/psiphp/description)
 
