@@ -15,9 +15,10 @@ The description component allows you to retrieve standard *descriptions* of
 object instances. A description is an object made up of standardized
 *descriptors* which are populated by description *enhancers*.
 
+
 ## Documentation
 
-See the documentation in [doc/index.rst](https://github.com/psiphp/description/blob/master/docs/index.rst).
+Documentation is in progress, there may be documentation in [doc/index.rst](https://github.com/psiphp/description/blob/master/docs/index.rst).
 
 ## Installation
 
